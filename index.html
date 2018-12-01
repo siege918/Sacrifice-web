@@ -3,6 +3,8 @@
 		<style>
 			body {
 				background-color: black;
+				font-family: "Arial Black";
+				user-select: none;
 			}
 			
 			.container {
@@ -24,6 +26,11 @@
 				width: 600px;
 				height: 100px;
 				background-image: url("img/textbox.png");
+				color: #9bbc0f;
+			}
+			
+			#textbox .content {
+				padding: 10px;
 			}
 			
 			#sidebar {
@@ -46,20 +53,30 @@
 				background-image: url("img/beast/form1.gif");
 				background-size: contain;
 			}
+			
+			#beast1 #mouth {
+				position: absolute;
+				width: 32px;
+				height: 8px;
+				background-image: url("img/beast/form1_mouth.png");
+				background-size: fit;
+				bottom: 10%;
+				left: 50%;
+				margin-left: -16px;
+			}
 		</style>
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script src="game.js"></script>
 	</head>
 	<body>
 		<div class="container">
-			<div id="textbox" style="display:none;">
-				
+			<div id="textbox">
+				<div class="content"></div>
 			</div>
-			<div id="sidebar">
+			<div id="sidebar" style="display:none;">
 				
 			</div>
 			<div id="beast1">
-				<div id="mouth">
-					
-				</div>
 			</div>
 		</div>
 	</body>
