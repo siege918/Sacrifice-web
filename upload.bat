@@ -1,0 +1,1 @@
+aws s3 sync . s3://siege-ld43 --exclude ".git\*" --exclude "workspace\*" --exclude "*.bat" --acl "public-read"

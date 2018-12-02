@@ -5,6 +5,7 @@
 				background-color: black;
 				font-family: "Arial Black";
 				user-select: none;
+				color: #9bbc0f;
 			}
 			
 			.container {
@@ -19,6 +20,11 @@
 				background-color: #0f380f;
 			}
 			
+			.room {
+				width: 100%;
+				height: 100%;
+			}
+			
 			#textbox {
 				position: absolute;
 				left: 0px;
@@ -26,16 +32,34 @@
 				width: 600px;
 				height: 100px;
 				background-image: url("img/textbox.png");
-				color: #9bbc0f;
 			}
 			
-			#textbox .content {
+			.content {
 				padding: 10px;
+			}
+			
+			.button {
+				padding-left: 10px;
+				cursor: pointer;
+			}
+			
+			.interact {
+				cursor: pointer;
 			}
 			
 			#sidebar {
 				position: absolute;
 				left: 0px;
+				top: 0px;
+				width: 150px;
+				height: 300px;
+				background-image:url("img/sidebar.png");
+				background-size: contain;
+			}
+			
+			#inventory {
+				position: absolute;
+				left: 150px;
 				top: 0px;
 				width: 150px;
 				height: 300px;
@@ -54,15 +78,36 @@
 				background-size: contain;
 			}
 			
-			#beast1 #mouth {
+			#beast2 {
 				position: absolute;
-				width: 32px;
-				height: 8px;
-				background-image: url("img/beast/form1_mouth.png");
-				background-size: fit;
-				bottom: 10%;
+				height: 256px;
+				width: 256px;
+				bottom: 0px;
 				left: 50%;
-				margin-left: -16px;
+				margin-left: -128px;
+				background-image: url("img/beast/form2.gif");
+				background-size: contain;
+			}
+			
+			#beast3 {
+				position: absolute;
+				height: 256px;
+				width: 256px;
+				bottom: 0px;
+				left: 50%;
+				margin-left: -128px;
+				background-image: url("img/beast/form3.gif");
+				background-size: contain;
+			}
+			
+			#beast4 {
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				left: 0;
+				top: 0;
+				background-image: url("img/beast/form4.gif");
+				background-size: contain;
 			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -70,13 +115,29 @@
 	</head>
 	<body>
 		<div class="container">
-			<div id="textbox">
+			<div class="room" id="cave">
+				<div id="beast1"></div>
+				<div id="beast2" style="display:none;"></div>
+				<div id="beast3" style="display:none;"></div>
+				<div id="beast4" style="display:none;"></div>
+			</div>
+			<div class="room" id="apartment">
+			</div>
+			
+			
+			<div id="textbox" style="display:none;">
 				<div class="content"></div>
 			</div>
-			<div id="sidebar" style="display:none;">
-				
+			<div id="sidebar">
+				<div class="content">
+					<div class="button" id="talkButton">Talk</div>
+					<div class="button" id="inventoryButton">Items</div>
+					<div class="button" id="goButton">Go Home</div>
+					<div class="button" id="caveButton">Go to Cave</div>
+				</div>
 			</div>
-			<div id="beast1">
+			<div id="inventory" style="display:none;">
+				
 			</div>
 		</div>
 	</body>
