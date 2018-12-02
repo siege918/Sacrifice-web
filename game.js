@@ -7,9 +7,7 @@ var feelingOkay = false;
 var room = 0;
 
 var inventory = [
-	"Chips",
-	"Plant",
-	"Cat"
+	"Chips"
 ]
 
 var itemActions = {
@@ -21,13 +19,23 @@ var itemActions = {
 				return value !== "Chips";
 			});
 			runDialog([
-				"You hand the spare bag of chips over to the fairy, and it takes them eagerly.",
+				"You hand the helf-eaten bag of chips over to the fairy, and it takes them eagerly.",
 				"The fairy eats the chips...",
 				"...including the bag."
 			], function() {
 				fedChips = true;
 				$("#goButton").show();
-				openSidebar();
+				$("#beast1").fadeOut(2000);
+				$("#beast2").fadeIn(2000, function() {
+					runDialog([
+						"The fairy changes form before you, gaining new markings, sprouting feet, and sporting a cheerful smile.",
+						"\"YUM! Those were amazing! They made me happy!\"",
+						"\"Do you have anything else that could make me happy?\"",
+						"\"If it makes you happy, maybe it'll do the same for me!\"",
+						"Maybe you should go back home and find something new to give to this fairy."
+					],
+					openSidebar);
+				});
 			});
 		}
 		else if (room !== 0 && !fedChips)
@@ -57,10 +65,23 @@ var itemActions = {
 			});
 			runDialog([
 				"You pull out your plant and the fairy flies over.",
-				"They bite into the flower, making happy muttering sounds as they eat."
+				"They bite into the flower, making happy chewing sounds as they eat."
 			], function() {
 				fedPlant = true;
-				openSidebar();
+				$("#beast2").fadeOut(2000);
+				$("#beast3").fadeIn(2000, function() {
+					runDialog([
+						"The fairy takes on a new form before you, its feet sprouting into massive legs and developing more marking.",
+						"Its smile turns into a massive grin.",
+						"It sure seems happy to see you.",
+						"\"That was wonderful!\"",
+						"Its voice is gruffer and more coarse, and you recoil a little.",
+						"\"No no, don't be afraid!\" it growls.",
+						"\"I'm still your friend. You're still mine, right?\"",
+						"\"Hey, do you have anything else for me? Something that makes you happy?\""
+					],
+					openSidebar);
+				});
 			});
 		}
 	},
@@ -77,6 +98,58 @@ var itemActions = {
 			], function() {
 				fedCat = true;
 				openSidebar();
+			});
+		}
+		
+		if (room === 1 && fedChips && fedPlant)
+		{
+			runDialog([
+				"You hold your cat in front of you, and they look at you with indifference.",
+				"...",
+				"You can't do it.",
+				"You sit down with your cat in your lap and they curl into a ball."
+			], function() {
+				$("#textbox").hide();
+				$("#apartment").fadeOut(4000, function() {
+					runDialog(["You never went back to the cave. You feel at peace."],
+					function() {
+						$("#textbox").hide();
+						$("#credits").fadeIn(6000);
+					});
+				});
+			});
+		}
+	},
+	"Self": function() {
+		if (room === 0 && fedChips && fedPlant && fedCat) {
+			inventory = inventory.filter(function(value) {
+				return value !== "Cat";
+			});
+			runDialog([
+				"You step forward to the creature and open your arms.",
+				"Its eyes fixate on you.",
+				"\"Ah... you're offering me yourself.\"",
+				"\"...\"",
+				"\"Yes, this is fine.\"",
+				"You hear a rumbling from within the cave, a large mass clambering to its feet.",
+				"\"I appreciate you.\"",
+				"The beast opens its wide mouth. You cannot see any other part of its form, but  its eyes and mouth approach you.",
+				"The mouth gets closer and closer and..."
+			], function() {
+				$("#cave").hide();
+				setTimeout(function() {
+					runDialog([
+						"You have given your whole self to the beast.",
+						"There is none of you left."
+					], function() {
+						$("#textbox").hide();
+						setTimeout(function() {
+							$("#credits").fadeIn(6000);
+						},
+						1000)
+					});
+				},
+				4000);
 			});
 		}
 	}
@@ -147,11 +220,76 @@ function closeInventory() {
 }
 
 function talkRoom() {
-	
+	if (!fedPlant)
+	{
+		runDialog([
+			"You haven't bought groceries this week so you don't have any food...",
+			"What do fairies even eat...?"
+		],
+		function() {
+			openSidebar();
+		});
+	}
+	else if (!fedCat)
+	{
+		runDialog([
+			"..."
+		],
+		function() {
+			openSidebar();
+		});
+	}
+	else
+	{
+		runDialog([
+			"\"I'm sure you can find something...\""
+		],
+		function() {
+			openSidebar();
+		});
+	}
 }
 
 function talkCave() {
-	
+	if (!fedChips)
+	{
+		runDialog(["\"Hey, do you have any food I can eat?\""],
+		function() {
+			openSidebar();
+		});
+	}
+	else if (!fedPlant)
+	{
+		runDialog([
+			"\"Do you have anything else that could make me happy?\"",
+			"\"If it makes you happy, maybe it'll do the same for me!\"",
+			"Maybe you should go back home and find something new to give to this fairy."
+		],
+		function() {
+			openSidebar();
+		});
+	}
+	else if (!fedCat)
+	{
+		runDialog([
+			"\"No no, don't be afraid!\" it growls.",
+			"\"I'm still your friend. You're still mine, right?\"",
+			"\"Hey, do you have anything else for me? Something that makes you happy?\""
+		],
+		function() {
+			openSidebar();
+		});
+		
+	}
+	else
+	{
+		runDialog([
+			"\"I'm sure you can find something...\""
+		],
+		function() {
+			openSidebar();
+		});
+	}
 }
 
 function goRoom() {
@@ -175,14 +313,14 @@ function goCave() {
 		
 		if (fedChips && inventory.includes("Plant"))
 		{
-			$("#beast1").hide();
-			$("#beast2").show();
+			//$("#beast1").hide();
+			//$("#beast2").show();
 			transitionOut();
 		}
 		else if (fedPlant && inventory.includes("Cat"))
 		{
-			$("#beast2").hide();
-			$("#beast3").show();
+			//$("#beast2").hide();
+			//$("#beast3").show();
 			transitionOut();
 		}
 		else if (fedCat && !inventory.includes("Self"))
@@ -198,7 +336,8 @@ function goCave() {
 				], function() {
 					$("#beast4").fadeIn(3000, function() {
 						runDialog([
-							"You see a smile open up in front of you, as large as the cave itself, and iridescent eyes open."
+							"You see a smile open up in front of you, as large as the cave itself, and iridescent eyes open.",
+							"\"I see you brought something for me.\""
 						], function() {
 							openSidebar();
 						});
@@ -224,10 +363,10 @@ function talk() {
 	switch (room) 
 	{
 		case 0:
-			talkRoom();
+			talkCave();
 			break;
 		case 1:
-			talkCave();
+			talkRoom();
 			break;
 		default:
 			break;
@@ -252,13 +391,7 @@ function transitionOut(callback) {
 
 $(function() {
 	$("body").on("click", "#talkButton", function() {
-		runDialog([
-			"Hi there!",
-			"I'm very hungry",
-			"Do you have anything you can feed me?"
-		], function() {
-			openSidebar();
-		});
+		talk();
 	});
 	$("body").on("click", "#goButton", function() {
 		goRoom();
@@ -272,16 +405,68 @@ $(function() {
 	$("body").on("click", "#inventoryButton", function() {
 		openInventory();
 	});
+	$("body").on("click", "#cat_trigger", function() {
+		if (fedPlant)
+		{
+			$("body").off("click", "#cat_trigger");
+			runDialog([
+				"...",
+				".....",
+				"You take your cat."
+			],
+			function() {
+				$("#cat_img").hide();
+				$("#cat_trigger").hide();
+				inventory.push("Cat");
+				openSidebar();
+			})
+		}
+		else {
+			runDialog([
+				"Kitty!"
+			],
+			function() {
+				openSidebar();
+			})
+		}
+	});
+	$("body").on("click", "#plant_trigger", function() {
+		if (fedChips)
+		{
+			$("body").off("click", "#plant_trigger");
+			runDialog([
+				"Maybe fairies eat flowers?",
+				"You take your plant."
+			],
+			function() {
+				$("#plant_img").hide();
+				$("#plant_trigger").hide();
+				inventory.push("Plant");
+				openSidebar();
+			})
+		}
+	});
 	
 	runDialog(
 		[
-			"Opening monologue about how sad you are."
+			"Things have been rough lately.",
+			"It's been quiet...",
+			"And lonely...",
+			"So you're spending your evening at the caves in the woods.",
+			"It's what you do when you need to feel centered.",
+			"You've been in these empty caves a million times, and you've never seen a single other creature here",
+			"until today."
 		],
 		function() {
 			$("#beast1").fadeIn(1000, function() {
 				runDialog(
 					[
-						"The fairy asks you for food"
+						"In front of you is a small creature, a squishy ball of joy.",
+						"It flutters up to your face and addresses you.",
+						"\"Hi there! Are you a friend?\"",
+						"You're generally good with animals, so you tell the creature that you're friendly.",
+						"\"Wonderful! I'm a cave fairy and I love making new friends!\"",
+						"\"Hey, do you have any food I can eat?\""
 					],
 					function() { openSidebar(); }
 				);

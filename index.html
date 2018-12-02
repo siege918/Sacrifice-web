@@ -121,6 +121,60 @@
 				width: 600px;
 				background-image: url("img/transition.png");
 			}
+			
+			#credits {
+				text-align: center;
+				margin: auto;
+				height: 200px;
+				width: 200px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -100px;
+				margin-left: -100px;
+			}
+			
+			#cat_img, #plant_img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 600px;
+				height: 450px;
+			}
+			
+			#cat_img {
+				background-image: url("img/apartment_cat.png")
+			}
+			
+			#plant_img {
+				background-image: url("img/apartment_flower.png")
+			}
+			
+			.trigger {
+				position: absolute;
+				cursor: pointer;
+			}
+			
+			#cat_trigger {
+				left: 150px;
+				top: 370px;
+				width: 100px;
+				height: 50px;
+			}
+			
+			#plant_trigger {
+				left: 350px;
+				top: 70px;
+				width: 50px;
+				height: 100px;
+			}
+			
+			#phone_trigger {
+				left: 330px;
+				top: 280px;
+				width: 50px;
+				height: 25px;
+			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script src="game.js"></script>
@@ -134,6 +188,11 @@
 				<div id="beast4" style="display:none;"></div>
 			</div>
 			<div class="room" id="apartment" style="display:none;">
+				<div id="cat_img"></div>
+				<div id="plant_img"></div>
+				<div id="cat_trigger" class="trigger"></div>
+				<div id="plant_trigger" class="trigger"></div>
+				<div id="phone_trigger" class="trigger"></div>
 			</div>
 			
 			
@@ -154,6 +213,10 @@
 			
 			<div id="transition" style="top: -600px;">
 			
+			</div>
+			<div id="credits" style="display:none;">
+				<p>"The One You Feed"</p>
+				<p>A Game by @takesiege</p>
 			</div>
 		</div>
 	</body>
